@@ -1,0 +1,311 @@
+                                        ################# TO LIST PACKAGES ################
+
+
+ros2 pkg list - shows list of packages.
+
+ros2 pkg executables - shows all the executable programs(default) of all the packages.
+
+ros2 pkg executables turtlesim - shows list of executables from turtlesim package.
+
+
+
+                                        ################# TO RUN ANY PACKAGE #################
+
+
+ros2 run <packagename> <executablename>
+e.g. ros2 run turtlesim turtlesim_node - runs the turtlesim_node of turtlesim package.
+
+ros2 run -h - to find help running packages/executables.
+
+ros2 run turtlesim turtle_teleop_key --ros-args --remap turtle1/cmd_vel:=turtle2/cmd_vel - to remap/change arguments to control turtle2.
+
+ros2 run turtlesim turtlesim_node --ros-args --remap __node:=my_turtle - reassign name of turtlesim node.
+
+ros2 node info <node_name> - to access more info on node.
+
+ros2 run rqt_graph rqt_graph - to run rqt graph.
+
+
+
+
+                                        ################# TOPIC #################
+
+
+** PRESS TAB TWICE TO SEE EXTRA DETAILS IN TERMINAL ABOUT A TOPIC **
+
+
+ros2 topic list - shows list of topics. *** 
+
+ros2 topic list -t - shows type of topic.
+
+ros2 topic find <topic_type> - to list available topics of given type.
+
+*** ros2 topic echo <topic_name> - to see data being published on a topic. ***
+
+ros2 topic info <topic_name> - to check number of publishers and subscribers.
+
+ros2 topic info <topic_name> --verbose - to get more info about the topic (like nodes etc..)
+
+NOTE :- Publishers and subscribers must send and receive the same type of message to communicate.
+e.g geometry_msgs/msg/Twist - This means that in the package geometry_msgs there is a msg called Twist.
+
+ros2 topic find geometry_msgs/msg/Twist - To find command outputs topics available when given the message type.
+
+
+ros2 interface show <msg_type> - to learn specifically, what structure of data the message expects.
+e.g. ros2 interface show geometry_msgs/msg/Twist
+
+ros2 topic pub <topic_name> <msg_type> '<args>' - To publish data to a topic directly from the command line.
+e.g. ros2 topic pub /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}"
+
+ros2 topic pub --once -w 2 /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}" - To publish data to your topic only once.
+
+
+
+                                        ################# SERVICE #################
+
+
+ros2 service list - will return a list of all the services currently active in the system.
+
+ros2 service type <service_name> - To find out the type of a service.
+e.g. ros2 service type /clear - The Empty type means the service call sends no data when making a request and receives no data when receiving a response.
+
+ros2 service list -t - To see the types of all the active services at the same time.
+
+ros2 service find <type_name> - to find all the services of a specific type.
+e.g. ros2 service find std_srvs/srv/Empty
+
+ros2 interface show <type_name> - to know the structure of the input arguments.
+e.g. ros2 interface show turtlesim/srv/Spawn
+
+ros2 service call <service_name> <service_type> <arguments> - to find a service’s type and to find the structure of that type’s arguments.
+(The <arguments> part is optional.)
+
+e.g. ros2 service call /clear std_srvs/srv/Empty - This command will clear the turtlesim window of any lines your turtle has drawn.
+
+
+
+                                        ################# PARAMETERS #################
+
+
+ros2 param list - To see the parameters belonging to your nodes.
+
+ros2 param get <node_name> <parameter_name> - To display the type and current value of a parameter.
+e.g. ros2 param get /turtlesim background_g
+
+ros2 param set <node_name> <parameter_name> <value> - To change a parameter’s value at runtime.
+e.g. ros2 param set /turtlesim background_r 150
+
+ros2 param dump <node_name> - To view all of a node’s current parameter values.
+
+ros2 param dump /turtlesim > turtlesim.yaml - To redirect the parameter values into a file to save them.
+
+ros2 param load <node_name> <parameter_file> - To load parameters from a file to a currently running node.
+e.g. ros2 param load /turtlesim turtlesim.yaml
+
+ros2 run <package_name> <executable_name> --ros-args --params-file <file_name> - To start the same node using your saved parameter values.
+e.g. ros2 run turtlesim turtlesim_node --ros-args --params-file turtlesim.yaml
+
+
+
+                                        ################# ACTION #################
+
+ros2 node info /turtlesim - To see the list of actions a node provides.
+
+ros2 action list - To identify all the actions in the ROS graph.
+
+ros2 action list -t - To find the type of action(similar to topics & services).
+
+ros2 action info /turtle1/rotate_absolute - To further introspect the action.
+
+ros2 interface show turtlesim/action/RotateAbsolute - Shows the structure of the action type.
+
+ros2 action send_goal <action_name> <action_type> <values> - To send an action from command line.
+e.g. ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute "{theta: 1.57}"
+
+
+
+                                        ################# ROS 2 LOGGER LEVELS #################
+
+
+ros2 run rqt_console rqt_console - Nodes use logs to output messages concerning events and status in a variety of ways. Their content is usually informational, for the sake of the user.
+
+Fatal - messages indicate the system is going to terminate to try to protect itself from detriment.
+
+Error - messages indicate significant issues that won’t necessarily damage the system, but are preventing it from functioning properly.
+
+Warn - messages indicate unexpected activity or non-ideal results that might represent a deeper issue, but don’t harm functionality outright.
+
+Info - messages indicate event and status updates that serve as a visual verification that the system is running as expected.
+
+Debug - messages detail the entire step-by-step process of the system execution.
+
+ros2 run turtlesim turtlesim_node --ros-args --log-level WARN - To set the default logger level when you first run node using remapping.
+
+
+
+                                        ################# ROS 2 LAUNCH #################
+
+
+ros2 launch - start up your entire system(all nodes and their configurations at once).
+e.g. ros2 launch turtlesim multisim.launch.py  - launch multiple(2) turtlesim nodes.
+
+ros2 launch <package_name> <launch_file_name> - to launch file.
+
+
+
+e.g. ros2 launch urdf_tutorial display.launch.py   model:=$(realpath ~/Tutorials/ROS/ros2_tutorial/ros2_ws/src/arduinobot_description/urdf/arduinobot.urdf.xacro)
+
+
+
+                                        ################# ROS 2 BAG #################
+
+
+ros2 bag - a command line tool for recording data published on topics in your system. It accumulates the data passed on any number of topics and saves it in a database. You can then replay the data to reproduce the results of your tests and experiments.
+
+
+ros2 bag record <topic_name> - To record the data published to a topic.
+
+ros2 bag record -o subset /turtle1/cmd_vel /turtle1/pose - record multiple topics, as well as change the name of the file ros2 bag saves to. The -o option allows you to choose a unique name for your bag file. The following string, in this case subset, is the file name. wing string, in this case subset, is the file name. To record more than one topic at a time, simply list each topic separated by a space. To stop recording press ctrl + C.
+
+NOTE:- 
+There is another option you can add to the command, -a, which records all the topics on your system.
+
+ros2 bag info <bag_file_name> - To see details about your recording.
+e.g. ros2 bag info subset
+
+NOTE:- ros2 topic hz /turtle1/pose - To get an idea of how often position data is published.
+
+
+
+                                        ################# WORKSPACE #################
+
+
+ROS2 Workspace - a directory with a particular structure.
+The build directory will be where intermediate files are stored. For each package a subfolder will be created in which e.g. CMake is being invoked.
+
+The install directory is where each package will be installed to. By default each package will be installed into a separate subdirectory.
+
+The log directory contains various logging information about each colcon invocation.
+
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws - create a directory (ros2_ws) to contain our workspace.
+
+** colcon build --symlink-install - To create symbolic links(symlinks) to the original files in the source or build directories instead of making copies.
+
+** source install/setup.bash - To add them to your path and library paths. colcon will have generated bash/bat files in the install directory to help set up the environment.
+
+** echo "source /usr/share/colcon_cd/function/colcon_cd.sh" >> ~/.bashrc
+** echo "export _colcon_cd_root=/opt/ros/humble/" >> ~/.bashrc
+
+The above command colcon_cd allows you to quickly change the current working directory of your shell to the directory of a package. As an example colcon_cd some_ros_package would quickly bring you to the directory ~/ros2_ws/src/some_ros_package.
+
+** colcon build - To build your packages.
+
+** echo "source ~/ROS_Projects/practice_projects/automatic_addison/practice_ros2/ros2_ws/install/setup.bash" >> ~/.bashrc - to source this workspace in given path to terminal so that any time we start new terminal, this workspace is recognized.
+
+** source ~/.bashrc - sourcing the bashrc file.
+
+
+
+                                    ################# PACKAGE #################
+
+
+** ros2 pkg create --build-type ament_cmake --license Apache-2.0 <package_name> - for creating a new C++ package in ROS 2.
+
+NOTE:- ** ros2 pkg create --build-type ament_python --license Apache-2.0 <package_name> - for creating a Python based package.
+e.g. ros2 pkg create --build-type ament_cmake --license Apache-2.0 --node-name my_node my_package
+
+** colcon build --packages-select <package_name> - Builds that particular package.(if there are too many packages in the workspace, then if we use "colcon build", it takes a long time, instead use this).
+e.g. colcon build --packages-select my_package
+
+ **** NOTE: AFTER BUILDING A NEW PACKAGE, MAKE SURE TO SOURCE IT, FOR USING THAT PACKAGE IN A NEW TERMINAL ****
+ **** source install/local_setup.bash (TRY TO DO IT IN A NEW TERMINAL)****
+
+ rosdep install -i --from-path src --rosdistro humble -y - It’s good practice to run rosdep in the root of your workspace (ros2_ws) to check for missing dependencies before building.
+
+ rosdep update - to initialize rosdep installation
+
+
+
+                                    ################# ALIAS(SHORTCUT) #################
+
+
+** echo "alias build='cd ~/ROS_Projects/practice_projects/automatic_addison/practice_ros2/ros2_ws && colcon build'" >> ~/.bashrc && source ~/.bashrc - builds alias called build to bashrc file, and when we type build, it does everything(build the packages as well as source the bash file at once). Simply it does everything in one command "build". 
+ 
+
+
+                                    ################# ADDITIONAL SETUP #################
+
+
+RUN THESE COMMANDS TO SETUP:-
+
+sudo apt-get install ros-${ROS_DISTRO}-ros-gz
+
+sudo apt-get install -y ros-${ROS_DISTRO}-ros-gz ros-${ROS_DISTRO}-gz-ros2-control ros-${ROS_DISTRO}-gz-ros2-control-demos ros-${ROS_DISTRO}-joint-state-publisher-gui ros-${ROS_DISTRO}-moveit ros-${ROS_DISTRO}-xacro ros-${ROS_DISTRO}-ros2-control ros-${ROS_DISTRO}-ros2-controllers libserial-dev python3-pip
+
+
+                                    ################# URDF #################
+
+
+URDF - Unified Robotics Description Format(it is saved as .xml file). It describes visual, physics, and connections of a robot with joints and links.
+
+**** command to install urdf package - sudo apt-get install ros-humble-urdf-tutorial**** 
+
+Link - used to describe a segment of a robot(defines visual, collision and inertial properties). Geometry and Origin are used in Visual and Collision properties to describe the Shape and Location of link.
+
+NOTE:- To get accurate models, obtain model from any 3D Modelling Software(e.g Solidworks) and export the .stl files for the geometry.
+
+EACH LINK CAN ONLY BE CONNECTED TO ONE PARENT WHEREAS EACH PARENT CAN HAVE MULTIPLE LINKS.
+
+Types of geometry - Box(<box size="x y z"/>), Sphere(<sphere radius="r"/>), Cylinder(<cylinder radius="r" length="l"/>), Mesh(<mesh filename="file_path" scale="x y z"/>)
+
+NOTE:- For Meshes the file types can be .stl or .dae files
+
+Origin - define rotations(using yaw(z)-pitch(y)-roll(x)) and translations(using x, y, z in meters), relative to link's coordinate frame. Order of rotation for rpy is ZYX(first X, then Y and then Z).
+
+NOTE:- The Rotation operation is applied first and then translation.
+
+For visual and collision, Origin describes how geometry is transformed relative to link's frame and for inertial, Origin describes the location of center of mass relative to link's frame.
+
+<origin rpy="r p y" xyz="x y z"/>
+
+Axis colors:- X(Red), Y(Green), Z(Blue).
+
+Material - used to define colors and transparency of color(using rgba).
+
+<material name="color_name">
+<color rgba="r g b a"/>
+</material>
+
+e.g red-rgba(1001), green-rgba(0101), blue-rgba(0011) etc..
+
+Collision - describe bounding shape around link for collision detection.(use simplified shape for faster calibration).
+
+Inertial - used to describe inertia[kg-m^2] about link's center of mass and mass[kg] of link.
+
+
+
+                                    ################# DDS(DATA DISTRIBUTION SERVICES) #################
+
+
+Used for communication between robots. Use of DOMAIN_ID is crucial for communication between robots(takes place when the domain is same)
+
+export ROS_DOMAIN_ID=<id_number> - Used to set domain id.
+
+echo $ROS_DOMAIN_ID - used to display the domain id value.
+
+
+
+
+                                    ################# DDS #################
+
+
+
+
+
+ 
+
+
+
+
