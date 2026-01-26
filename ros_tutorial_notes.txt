@@ -226,6 +226,8 @@ e.g. colcon build --packages-select my_package
 
  rosdep update - to initialize rosdep installation
 
+ '#!' - is Shebang used to say to OS that to use the following intrepreter.
+
 
 
                                     ################# ALIAS(SHORTCUT) #################
@@ -298,7 +300,68 @@ echo $ROS_DOMAIN_ID - used to display the domain id value.
 
 
 
-                                    ################# DDS #################
+                                    ################# README.md #################
+
+
+
+search for "Getting started writing readme github" - to learn to write in README.md file.
+
+
+
+                                    ################# package.xml File #################
+
+
+Important part of any ROS 2 package. 
+
+It holds key details about your package(acts like storage of id cards for packages).
+
+<buildtool_depend>ament_cmake</buildtool_depend>
+<buildtool_depend>ament_cmake_python</buildtool_depend> - To configure thy type of package(containg c++ and python scripts), build tools are compilers to build code in package
+
+<depend>rclpy</depend>
+<depend>rclcpp</depend>
+<depend>std_msgs</depend> - Add these as it lists the libraries/packages that we used in the code.
+
+
+
+
+                                    ################# CMakeLists.txt File #################
+
+
+Defines how a ROS 2 package should be build.
+
+Contains instructions for building and linking package's executables, libraries and other files.
+
+find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(std_msgs REQUIRED) - Add these as it lists the libraries/packages that we used in the code in order to execute.
+
+set(dependencies 
+    rclcpp
+    std_msgs
+) - setting a variable called "dependencies" for listing all the packages we used.
+
+include_directories(
+  include
+) - To inclued header files in C++ code
+
+
+#add_executable(minimal_cpp_publisher src/minimal_cpp_publisher.cpp)
+#ament_target_dependencies(minimal_cpp_publisher ${dependencies}) - Add thse 2 lines in every package in cmakelists.txt(if c++ code is used)
+
+#add_executable(minimal_cpp_subscriber src/minimal_cpp_subscriber.cpp)
+#ament_target_dependencies(minimal_cpp_subscriber ${dependencies})
+
+install(
+  DIRECTORY ros2_fundamentals_examples
+  DESTINATION share/${PROJECT_NAME}
+) - installing package in project(ROS 2)
+
+
+
+
 
 
 

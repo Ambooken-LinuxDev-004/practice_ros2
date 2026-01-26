@@ -7,9 +7,60 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(std_msgs REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
+
+set(dependencies 
+    rclcpp
+    std_msgs
+)
+
+include_directories(
+  include
+)
+
+#add_executable(minimal_cpp_publisher src/minimal_cpp_publisher.cpp)
+#ament_target_dependencies(minimal_cpp_publisher ${dependencies})
+
+#add_executable(minimal_cpp_subscriber src/minimal_cpp_subscriber.cpp)
+#ament_target_dependencies(minimal_cpp_subscriber ${dependencies})
+
+install(
+  DIRECTORY ros2_fundamentals_examples
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(
+  DIRECTORY include/
+  DESTINATION include
+)
+
+#install cpp executables
+#install (
+# TARGETS
+# minimal_cpp_publisher
+# minimal_cpp_subscriber
+# DESTINATION lib/${PROJECT_NAME}
+#)
+
+# Install python modules for import
+ament_python_install_package(${PROJECT_NAME})
+
+# Add this section to install Python scripts
+
+install(
+  PROGRAMS
+  ros2_fundamentals_examples/py_minimal_publisher.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -22,5 +73,8 @@ if(BUILD_TESTING)
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
+
+
+ament_export_include_directories(include)
 
 ament_package()

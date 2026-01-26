@@ -1,4 +1,4 @@
-#! /usr/bin/env python3 - '#!' is Shebang used to say to OS that to use the following intrepreter. 
+#! /usr/bin/env python3 
 
 """       Description 
 
