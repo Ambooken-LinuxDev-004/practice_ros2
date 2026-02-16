@@ -361,6 +361,35 @@ install(
 
 
 
+                                    ################# Creating Bash script to launch node in sequence #################
+
+
+Create a folder named "scripts" inside the package you created before(not inside the sub-package but just inside the package!!!...) and create a bash file(e.g. minimal_pub_sub_launch.sh)
+
+#!/bin/bash - Add this at top
+
+cleanup(){
+  echo "Restarting ROS 2 daemon to cleanup before shutting down all processes..."
+  ros2 daemon stop
+  sleep 1
+  ros2 daemon start
+  echo "Terminating all ROS-2 related processes.."
+  kill 0
+  exit
+} - created a function called cleanup. It stops and restarts ros2 daemon(within 1 second), which is useful for gazebo, rviz(simulations) as these simulation softwares might not shutdown properly after use(thus, it might block communication between node when executing..)
+
+kill 0 - kills all processes and then we exit
+
+trap 'cleanup' SIGINT - represents Ctrl + C, (when pressing ctrl + c instaed of stopping the process, it first execute cleanup() then it stops)..
+
+
+
+                                  ################# Creating Bash script to launch node in sequence #################
+
+
+
+
+
 
 
 
