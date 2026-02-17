@@ -27,8 +27,8 @@ include_directories(
 add_executable(minimal_cpp_publisher src/cpp_minimal_publisher.cpp)
 ament_target_dependencies(minimal_cpp_publisher ${dependencies})
 
-#add_executable(minimal_cpp_subscriber src/minimal_cpp_subscriber.cpp)
-#ament_target_dependencies(minimal_cpp_subscriber ${dependencies})
+add_executable(minimal_cpp_subscriber src/cpp_minimal_subscriber.cpp)
+ament_target_dependencies(minimal_cpp_subscriber ${dependencies})
 
 install(
   DIRECTORY ros2_fundamentals_examples scripts
@@ -44,7 +44,7 @@ install(
 install (
  TARGETS
  minimal_cpp_publisher
-# minimal_cpp_subscriber
+ minimal_cpp_subscriber
  DESTINATION lib/${PROJECT_NAME}
 )
 
