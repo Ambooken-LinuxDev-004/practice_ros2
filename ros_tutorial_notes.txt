@@ -384,7 +384,61 @@ trap 'cleanup' SIGINT - represents Ctrl + C, (when pressing ctrl + c instaed of 
 
 
 
-                                  ################# Creating Bash script to launch node in sequence #################
+                                  ################# Saving project on Github #################
+
+
+Install git
+
+Configuration(if not done) - 
+
+git config --global user.name "<your username>"
+git config --global user.email "<your email_id>"
+git config --global init.defaultBranch main 
+git init - to initialize git
+
+git add . - prepares files
+git commit -m "<your_message>" - saves changes
+
+create repository on github
+
+git remote add origin <url(https)> - to link your local respository to github
+then refresh github screen
+
+Creating fine-grain personal access token - special key that helps to access your github account. More secure than password. 
+
+go to settings(in profile of github)
+go to developer settings
+go to personal access token, go to fine-grained tokens
+click "generate new token"
+enter token name, enable "read & write" in repository permissions and account permissions
+click "generate token"
+copy the "personal access token" and save it somewhere save!!!...
+
+
+Pushing code from local github repository to github remote repository
+
+git push -u origin main
+enter your username for username
+enter your personal access token for password
+
+Then after making changes, do as before(add, commit) and use "git push" for pushing it to github repository
+
+When working with other people on a project:
+
+First Do:
+
+git fetch - looks for all changes made in github(but not downloaded anything from github)
+then check using "git status" - If up-to-date ok.. If not, use "git pull" command... to be up-to-date
+git pull - downloads changes from Github to your computer(bringing local code up-to-date)
+
+
+
+                                ################# Saving project on Github #################
+
+
+  
+
+
 
 
 
