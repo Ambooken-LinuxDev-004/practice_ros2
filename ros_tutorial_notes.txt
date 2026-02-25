@@ -433,7 +433,40 @@ git pull - downloads changes from Github to your computer(bringing local code up
 
 
 
-                                ################# Saving project on Github #################
+                                ################# Pytest #################
+
+
+
+Tool used to debug/test and improve code design(for python code)
+
+Refer "test_publisher.py" in test/pytest folder
+
+Use command after codeing, editing cmake and package.xml files:
+
+" rosdep install --from-paths src --ignore-src -r -y " - Scans package.xml files and make sure that we have our dependencies, install and build and prompts if anything if not installed to install it.  
+
+Build the package
+
+Source the bashrc - source ~/.bashrc
+
+Now for testing use command:
+
+" colcon test --packages-select ros2_fundamentals_examples "
+
+If above command is successful, the use this:
+
+" colcon test --packages-select ros2_fundamentals_examples --event-handlers console_direct+ " - Give more details for unit testing
+
+Then use this, 
+
+" colcon test-result --all " - To check the results
+
+
+
+                                ################# Gtest #################
+
+
+
 
 
   

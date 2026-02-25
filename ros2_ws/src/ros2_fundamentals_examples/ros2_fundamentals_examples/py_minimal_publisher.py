@@ -63,7 +63,7 @@ class MinimalPyPublisher(Node):
     self.publisher_1.publish(msg)
 
     #log a message indicating the message has been published
-    self.get_logger().info('Publishing: "%s"' % msg._data)
+    self.get_logger().info('Publishing: "%s"' % msg.data)
 
     self.counter = self.counter + 1
 
