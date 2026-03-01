@@ -488,7 +488,52 @@ Then use this,
 
 
 
-                                ################# Gtest #################
+                                ################# Coordinate Frames & Right-hand rule of Robotics #################
+
+
+X-axis(red) - index finger (points forward and is positive direction)
+Y-axis(green) - middle finger (points left and is positive direction)
+Z-axis(blue) - thumb (points up and is positive direction)
+
+Orientation(types of rotation):
+
+Roll(x-axis) - ear touch shoulder
+Pitch(y-axis) - chin touches chest
+Yaw(z-axis) - shaking head no
+
+World coordinate frame/Map frame - serves as global reference point for all robots and objects in a given environment
+This never moves or changes(provide stable point of reference)
+
+Placed in convinient place - cneter of room, battery charging station etc...(all oyher coordinate frames reference back to world frame)
+
+Base frame - frame that's attached to robot's based(in mobile robot, the base frame moves(relative to the world frame)... along with robot)
+
+Sensor frames - eyes/ears of robot. 
+
+Joint frames - helps how how each joint bent/twisted
+
+Origin - point where xyz(all perpendicular) meets
+
+End-effector frame - coordinate frame at the very end of robotic arm. 
+
+Odom - odometery(frame which starts to move)
+
+Base_footprint frame - frame directly under the center of base link
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
