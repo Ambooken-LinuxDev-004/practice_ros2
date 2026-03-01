@@ -467,6 +467,37 @@ Then use this,
 
 
 
+Used for testing C++ code(nodes) and ensures code verification and expected behaviour
+
+#define TESTING_EXCLUDE_MAIN
+#include "../../src/cpp_minimal_publisher.cpp" - Prevents main function in the implementation file from being included which could conflict with our test main function(there should be no 2 main functions in C++)
+
+Now for testing use command:
+
+" colcon test --packages-select ros2_fundamentals_examples "
+
+If above command is successful, the use this:
+
+" colcon test --packages-select ros2_fundamentals_examples --event-handlers console_direct+ " - Give more details for unit testing
+
+Then use this, 
+
+" colcon test-result --all " - To check the results
+
+" colcon test-result --all --verbose " - To check and see more data
+
+
+
+                                ################# Gtest #################
+
+
+
+
+
+
+
+
+
 
 
   
