@@ -25,6 +25,8 @@ ros2 node info <node_name> - to access more info on node.
 
 ros2 run rqt_graph rqt_graph - to run rqt graph.
 
+After building packages, do not forget to source the bashrc file "source ~/.bashrc"..
+
 
 
 
@@ -154,7 +156,7 @@ ros2 launch <package_name> <launch_file_name> - to launch file.
 
 
 
-e.g. ros2 launch urdf_tutorial display.launch.py   model:=$(realpath ~/Tutorials/ROS/ros2_tutorial/ros2_ws/src/arduinobot_description/urdf/arduinobot.urdf.xacro)
+e.g. ros2 launch urdf_tutorial display.launch.py model:=/home/joe/ROS_Projects/practice_projects/automatic_addison/practice_ros2/ros2_ws/src/mycobot_ros2/mycobot_description/urdf/robots/mycobot_280.urdf.xacro
 
 
 
@@ -228,6 +230,8 @@ e.g. colcon build --packages-select my_package
 
  '#!' - is Shebang used to say to OS that to use the following intrepreter.
 
+ BSD-3-Clause (license) - hepls in modify, distribute anyway you like.
+
 
 
                                     ################# ALIAS(SHORTCUT) #################
@@ -286,6 +290,37 @@ Collision - describe bounding shape around link for collision detection.(use sim
 
 Inertial - used to describe inertia[kg-m^2] about link's center of mass and mass[kg] of link.
 
+By convention, we call this package whatever the name of the robot like this: "robotname_description"
+
+Create "meta package" - does not contain anything but a list of dependencies to other packages. Helps in installing multiple related packages at once.(e.g. "mycobot_ros2") 
+
+add execution dependency in package.xml of meta package - "<exec_depend>mycobot_description</exec_depend> under buildtool_depend tag"
+
+Add README.md for packages(good practice)...
+
+Make folder for meshes, urdf.... 
+
+Modify Cmake.txt file "like use find_package, install(DIRECTORY launch meshes urdf rviz DESTINATION share/${PROJECT_NAME})" 
+
+Modify package.xml file, add: "<depend>urdf_tutorial</depend>" under buildtool_depend tag
+
+Use this command after modifying the files in workspace " rosdep install -i --from-path src --rosdistro $ROS_DISTRO -y " - scans package.xml to check what dependencies are not yet installed and install them. 
+
+Xacro files are like blueprints for urdf file(usinf macros and variables to simplify complex robot descriptions). In general, xacro gives more flexibility & organization
+
+add this command: " touch ~/ROS_Projects/practice_projects/automatic_addison/practice_ros2/ros2_ws/src/mycobot_ros2/mycobot_description/urdf/mech/{g_shape_base_v2_0.urdf.xacro,adaptive_gripper.urdf.xacro,mycobot_280_arm.urdf.xacro} ~/ROS_Projects/practice_projects/automatic_addison/practice_ros2/ros2_ws/src/mycobot_ros2/mycobot_description/urdf/robots/mycobot_280.urdf.xacro "
+
+" https://github.com/automaticaddison/mycobot_ros2/tree/jazzy " - robot arm reference
+
+to see urdf in Rviz: " ros2 launch urdf_tutorial display.launch.py model:=/home/joe/ROS_Projects/practice_projects/automatic_addison/practice_ros2/ros2_ws/src/mycobot_ros2/mycobot_description/urdf/robots/mycobot_280.urdf.xacro "
+
+
+ros2 run tf2_tools view_frames - To view the flow chart.
+evince frames_2026-03-02_19.35.56.pdf - 'evince' is used to open pdf file. 
+
+echo "alias elephant='ros2 launch urdf_tutorial display.launch.py model:=/home/joe/ROS_Projects/practice_projects/automatic_addison/practice_ros2/ros2_ws/src/mycobot_ros2/mycobot_description/urdf/robots/mycobot_280.urdf.xacro'" >> ~/.bashrc
+
+
 
 
                                     ################# DDS(DATA DISTRIBUTION SERVICES) #################
@@ -316,7 +351,7 @@ Important part of any ROS 2 package.
 It holds key details about your package(acts like storage of id cards for packages).
 
 <buildtool_depend>ament_cmake</buildtool_depend>
-<buildtool_depend>ament_cmake_python</buildtool_depend> - To configure thy type of package(containg c++ and python scripts), build tools are compilers to build code in package
+<buildtool_depend>ament_cmake_python</buildtool_depend> - To configure the type of package(containg c++ and python scripts), build tools are compilers to build code in package
 
 <depend>rclpy</depend>
 <depend>rclcpp</depend>
@@ -472,6 +507,22 @@ Used for testing C++ code(nodes) and ensures code verification and expected beha
 #define TESTING_EXCLUDE_MAIN
 #include "../../src/cpp_minimal_publisher.cpp" - Prevents main function in the implementation file from being included which could conflict with our test main function(there should be no 2 main functions in C++)
 
+For this add(DO NOT FORGET!!!):
+
+#ifndef TESTING_EXCLUDE_MAIN
+int main(int argc, char * argv[])
+{
+  rclcpp::init(argc, argv);
+
+  auto minimal_cpp_publisher_node = std::make_shared<MinimalCppPublisher>();
+  rclcpp::spin(minimal_cpp_publisher_node);
+
+  rclcpp::shutdown();
+
+  return 0;
+}
+#endif - IN THE IMPLEMENTATION FILE(NOT IN TEST FILE!!!)
+
 Now for testing use command:
 
 " colcon test --packages-select ros2_fundamentals_examples "
@@ -504,7 +555,7 @@ Yaw(z-axis) - shaking head no
 World coordinate frame/Map frame - serves as global reference point for all robots and objects in a given environment
 This never moves or changes(provide stable point of reference)
 
-Placed in convinient place - cneter of room, battery charging station etc...(all oyher coordinate frames reference back to world frame)
+Placed in convinient place - cneter of room, battery charging station etc...(all other coordinate frames reference back to world frame)
 
 Base frame - frame that's attached to robot's based(in mobile robot, the base frame moves(relative to the world frame)... along with robot)
 
