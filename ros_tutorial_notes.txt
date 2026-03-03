@@ -573,6 +573,34 @@ Base_footprint frame - frame directly under the center of base link
 
 
 
+                              ################# Mobile Robot URDF #################
+
+
+Create package using "BSD" license for yahboom rosmaster description and also meta package
+
+Add " <exec_depend>yahboom_rosmaster_description</exec_depend> " in the meta package
+
+add meshes folder - " mkdir -p ~/ROS_Projects/practice_projects/automatic_addison/practice_ros2/ros2_ws/src/yahboom_rosmaster/yahboom_rosmaster_description/meshes/rosmaster_x3/visual ", urdf/control, urdf/mech, urdf/sensors, urdf/robots..
+
+add mesh files
+
+add this "find_package(urdf_tutorial REQUIRED)", " install(
+  DIRECTORY config launch meshes urdf rviz
+  DESTINATION share/${PROJECT_NAME}
+) " - in Cmake.txt file of yahboom_rosmaster_description package
+
+Add this " <depend>urdf_tutorial</depend> " in package.xml of yahboom_rosmaster_description package
+
+Add this " touch ~/ROS_Projects/practice_projects/automatic_addison/practice_ros2/ros2_ws/src/yahboom_rosmaster/yahboom_rosmaster_description/urdf/mech/{rosmaster_x3_base.urdf.xacro,mecanum_wheel.urdf.xacro} ~/ROS_Projects/practice_projects/automatic_addison/practice_ros2/ros2_ws/src/yahboom_rosmaster/yahboom_rosmaster_description/urdf/sensors/{rgbd_camera.urdf.xacro,imu.urdf.xacro,lidar.urdf.xacro} ~/ROS_Projects/practice_projects/automatic_addison/practice_ros2/ros2_ws/src/yahboom_rosmaster/yahboom_rosmaster_description/urdf/robots/rosmaster_x3.urdf.xacro "
+
+build the workspace
+source thr bashrc file
+use this: " ros2 launch urdf_tutorial display.launch.py model:=/home/joe/ROS_Projects/practice_projects/automatic_addison/practice_ros2/ros2_ws/src/yahboom_rosmaster/yahboom_rosmaster_description/urdf/robots/rosmaster_x3.urdf.xacro "
+
+ros2 run tf2_tools view_frames and use evince - to view the flow chart
+
+
+
 
 
 
