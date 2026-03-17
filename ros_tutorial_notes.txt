@@ -159,6 +159,17 @@ ros2 launch <package_name> <launch_file_name> - to launch file.
 e.g. ros2 launch urdf_tutorial display.launch.py model:=/home/joe/ROS_Projects/practice_projects/automatic_addison/practice_ros2/ros2_ws/src/mycobot_ros2/mycobot_description/urdf/robots/mycobot_280.urdf.xacro
 
 
+Command to see arguments: " ros2 launch mycobot_description robot_state_publisher.launch.py --show-args " - These are arguments that we could pass before launching the launch file(shows the list of arguments)
+
+To change argument value: " ros2 launch mycobot_description robot_state_publisher.launch.py use_jsp:=true " - here use_jsp is the argument and we set it to true value
+
+DO THIS SIMILARLY FOR YAHBOOM ROBOT
+
+
+
+
+
+
 
                                         ################# ROS 2 BAG #################
 
@@ -600,6 +611,14 @@ use this: " ros2 launch urdf_tutorial display.launch.py model:=/home/joe/ROS_Pro
 ros2 run tf2_tools view_frames and use evince - to view the flow chart
 
 
+
+
+                                ################# Rviz #################
+
+
+Rviz file ends with ".rviz" extension
+
+Mainly used for configuring rviz of our robot(to check and move as our wish and how to see)
 
 
 
