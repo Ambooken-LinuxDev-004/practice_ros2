@@ -7,6 +7,8 @@ ros2 pkg executables - shows all the executable programs(default) of all the pac
 
 ros2 pkg executables turtlesim - shows list of executables from turtlesim package.
 
+e.g ros2 pkg list | grep gz_ros2_control
+
 
 
                                         ################# TO RUN ANY PACKAGE #################
@@ -236,6 +238,8 @@ e.g. colcon build --packages-select my_package
  **** source install/local_setup.bash (TRY TO DO IT IN A NEW TERMINAL)****
 
  rosdep install -i --from-path src --rosdistro humble -y - It’s good practice to run rosdep in the root of your workspace (ros2_ws) to check for missing dependencies before building.
+
+  CORRECT VERSION OF ABOVE COMMAND " rosdep install -i --from-path src --rosdistro $ROS_DISTRO -y "
 
  rosdep update - to initialize rosdep installation
 
@@ -619,6 +623,79 @@ ros2 run tf2_tools view_frames and use evince - to view the flow chart
 Rviz file ends with ".rviz" extension
 
 Mainly used for configuring rviz of our robot(to check and move as our wish and how to see)
+
+
+
+                                ################# Gazebo - Robot Arm #################
+
+
+Virtual robot testing environment, simulates before real hardware
+
+ROS2 Control - Universal Robot translator, bridges software & hardware, manages hardware communication by providing standard interfaces
+
+First, create package "ros2 pkg create --build-type ament_cmake --license BSD-3-Clause --maintainer-name joe --maintainer-email joeambooken04@gmail.com mycobot_bringup "
+
+Create packages like bringup, gazebo, moveit_congig & system_tests(just like above command)
+
+Add packages that is required for application
+
+"<depend>controller_manager</depend>
+  <depend>gripper_controllers</depend>
+  <depend>gz_ros2_control</depend>
+  <depend>python3-numpy</depend>
+  <depend>rclcpp</depend>
+  <depend>ros_gz</depend>
+  <depend>ros_gz_bridge</depend>
+  <depend>ros_gz_image</depend>
+  <depend>ros_gz_sim</depend>
+  <depend>ros2_control</depend>
+  <depend>ros2_controllers</depend>
+  <depend>trajectory_msgs</depend>
+  <depend>xacro</depend>
+  <exec_depend>gz_ros2_control_demos</exec_depend>" AND DO NOT FORGET TO UPDATE THIS IN THE META PACKAGE
+
+  Now in CMakeLists og gazebo package: Add these under find dependencies 
+  "find_package(controller_manager REQUIRED)
+    find_package(gripper_controllers REQUIRED)
+    find_package(rclcpp REQUIRED)
+    find_package(ros2_control REQUIRED)
+    find_package(ros2_controllers REQUIRED)
+    find_package(trajectory_msgs REQUIRED)
+    find_package(xacro REQUIRED)"
+
+Go to workspace and update dependencies "rosdep install -i --from-path src --rosdistro $ROS_DISTRO -y"
+
+run this to check: "ros2 pkg list | grep gz_ros2_control"
+
+Then launch it for demo: "ros2 launch ros_gz_sim gz_sim.launch.py gz_args:="shapes.sdf""
+
+Another demo: "ros2 launch ros_gz_sim_demos joint_states.launch.py"
+
+Another demo: "ros2 launch gz ros2_control_demos gripper_mimic_joint_example_effort.launch.py"
+
+REFERENCE LINK FOR CHECKING DEMOS: "https://github.com/gazebosim/ros_gz/"
+
+Here also I am using old Gazebo: "ros2 launch gazebo_ros2_control_demos gripper_mimic_joint_example.launch.py"
+
+To close gripper: "ros2 run gz_ros2_control_demos example_gripper"
+Gazebo(Old version): "" 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
