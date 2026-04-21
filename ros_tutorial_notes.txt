@@ -680,6 +680,23 @@ Here also I am using old Gazebo: "ros2 launch gazebo_ros2_control_demos gripper_
 To close gripper: "ros2 run gz_ros2_control_demos example_gripper"
 Gazebo(Old version): "" 
 
+ros2 launch gazebo_ros2_control_demos diff_drive.launch.py - differential drive robot command
+
+export ROS_LOCALHOST_ONLY=1
+source /opt/ros/humble/setup.bash
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/diff_drive_base_controller/cmd_vel_unstamped - command to move robot in terminal
+
+CREATE ENVIROMENT FOR SIMULATED ROBOT
+mkdir -p worlds launch models
+cd worlds
+gedit empty.world
+
+Go to SDFormat.org to see details
+
+
+
+
+
 
 
 
