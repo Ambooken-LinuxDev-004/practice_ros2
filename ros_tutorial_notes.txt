@@ -692,6 +692,19 @@ cd worlds
 gedit empty.world
 
 Go to SDFormat.org to see details
+to launch world - gazebo sim empty.world
+
+export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:~/ROS_Projects/practice_projects/automatic_addison/practice_ros2/ros2_ws/src/mycobot_ros2/mycobot_gazebo/models
+
+gazebo ~/ROS_Projects/practice_projects/automatic_addison/practice_ros2/ros2_ws/src/mycobot_ros2/mycobot_gazebo/worlds/pick_and_place_demo_classic.world
+
+COMMANDS TO SEE THE MODELS IN THE WORLD!!... 
+
+
+
+
+
+
 
 
 
